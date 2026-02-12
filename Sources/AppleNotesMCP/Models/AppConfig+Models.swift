@@ -11,7 +11,7 @@ extension Models {
 
 extension Models.AppConfig {
   static let defaultName = "apple-notes-mcp"
-  static let defaultVersion = "0.1.0"
+  static let defaultVersion = "1.0.0"
   static let defaultListChanged = false
 
   static let `default` = Self(

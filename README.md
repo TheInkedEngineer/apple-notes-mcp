@@ -667,3 +667,7 @@ Do not print diagnostics to stdout. MCP JSON-RPC uses stdout. This project logs 
 - `docs/TOOLS.md`: detailed tool contracts and algorithm semantics.
 - `docs/TESTING.md`: suite design, seams, and how to add deterministic tests.
 - `docs/RICH_TEXT.md`: Notes HTML guidance and markdown rendering behavior.
+
+## License
+
+MIT. See `LICENSE`.
