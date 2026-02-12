@@ -1,5 +1,9 @@
 # Apple Notes MCP (Swift)
 
+<p align="center">
+  <img src="apple-notes-mcp-icon.png" alt="Apple Notes MCP Icon" width="180" height="180">
+</p>
+
 A Swift 6 Model Context Protocol (MCP) server for Apple Notes.
 
 It runs as a stdio JSON-RPC process and exposes tools to inspect accounts/folders and list, read, create, update, move, and delete Apple Notes.
@@ -34,7 +38,32 @@ It runs as a stdio JSON-RPC process and exposes tools to inspect accounts/folder
 
 ## Quick Start
 
-### 1) Build
+### 1) Install
+
+#### Homebrew (recommended)
+
+```bash
+brew tap TheInkedEngineer/theinkedengineer
+brew install apple-notes-mcp
+```
+
+#### Curl installer
+
+Latest release:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/TheInkedEngineer/apple-notes-mcp/main/scripts/install.sh | bash
+```
+
+Specific version (example):
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/TheInkedEngineer/apple-notes-mcp/main/scripts/install.sh | bash -s -- 1.0.0
+```
+
+Note: published binary artifacts currently target Apple Silicon (`darwin_arm64`).
+
+### 2) Build from Source (optional)
 
 ```bash
 swift build -c release
@@ -46,7 +75,7 @@ Binary:
 .build/release/apple-notes-mcp
 ```
 
-### 2) Configure Claude Code
+### 3) Configure Claude Code
 
 Add to `~/.claude.json`:
 
@@ -63,7 +92,24 @@ Add to `~/.claude.json`:
 
 Restart Claude Code after updating config.
 
-### 3) Grant macOS Automation Permission
+### 4) Configure Codex (MCP-compatible clients)
+
+For Codex clients that support MCP server registration, add an equivalent server entry in your MCP settings:
+
+```json
+{
+  "mcpServers": {
+    "apple-notes": {
+      "command": "apple-notes-mcp",
+      "args": []
+    }
+  }
+}
+```
+
+If `apple-notes-mcp` is not on your `PATH`, use the absolute binary path instead.
+
+### 5) Grant macOS Automation Permission
 
 On first tool call, macOS may prompt for automation permission.
 

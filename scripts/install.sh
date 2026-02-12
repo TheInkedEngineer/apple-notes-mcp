@@ -14,9 +14,17 @@ if [[ "$OS" != "Darwin" ]]; then
 fi
 
 case "$ARCH" in
-  arm64) TARGET="darwin_arm64" ;;
-  x86_64) TARGET="darwin_amd64" ;;
-  *) echo "Unsupported architecture: $ARCH"; exit 1 ;;
+  arm64)
+    TARGET="darwin_arm64"
+    ;;
+  x86_64)
+    echo "No Intel release artifact is published yet. Use source build for now."
+    exit 1
+    ;;
+  *)
+    echo "Unsupported architecture: $ARCH"
+    exit 1
+    ;;
 esac
 
 VERSION="${1:-latest}"
@@ -30,15 +38,22 @@ ARCHIVE="${BINARY}_${TARGET}.tar.gz"
 TMP_DIR="$(mktemp -d)"
 trap 'rm -rf "$TMP_DIR"' EXIT
 
+echo "Downloading ${ARCHIVE}..."
 curl -fL "${BASE_URL}/${ARCHIVE}" -o "${TMP_DIR}/${ARCHIVE}"
 curl -fL "${BASE_URL}/checksums.txt" -o "${TMP_DIR}/checksums.txt"
 
+echo "Verifying checksum..."
 (
   cd "$TMP_DIR"
   if command -v sha256sum >/dev/null 2>&1; then
     sha256sum -c checksums.txt --ignore-missing
   else
-    shasum -a 256 -c checksums.txt
+    expected="$(awk "/${ARCHIVE}\$/ {print \$1}" checksums.txt)"
+    actual="$(shasum -a 256 "${ARCHIVE}" | awk '{print $1}')"
+    if [[ "$expected" != "$actual" ]]; then
+      echo "Checksum mismatch for ${ARCHIVE}"
+      exit 1
+    fi
   fi
 )
 
