@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-REPO="theinkedengineer/apple-notes-mcp"
+REPO="TheInkedEngineer/apple-notes-mcp"
 BINARY="apple-notes-mcp"
 INSTALL_DIR="${INSTALL_DIR:-/usr/local/bin}"
 
